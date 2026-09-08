@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: testdb
-      MYSQL_ROOT_PASSWORD: ag4035737@
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_secure_password}
     ports:
       - "3308:3306"
     volumes:
@@ -44,7 +44,7 @@ services:
       - PORT=8080
       - DB_URL=jdbc:mysql://mysql:3306/testdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       - DB_USERNAME=root
-      - DB_PASSWORD=ag4035737@
+      - DB_PASSWORD=${DB_PASSWORD:-root_secure_password}
       - MONGO_URI=mongodb://mongodb:27017/ProjectLN
       - REDIS_HOST=redis
       - REDIS_PORT=6379

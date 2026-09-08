@@ -32,13 +32,22 @@ public class AdminInitializer implements CommandLineRunner {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @org.springframework.beans.factory.annotation.Value("${admin.default.email:admin@nextgem.com}")
+    private String defaultAdminEmail;
+
+    @org.springframework.beans.factory.annotation.Value("${admin.default.password:AdminSecretPass123!}")
+    private String defaultAdminPass;
+
+    @org.springframework.beans.factory.annotation.Value("${seed.user.email:guest@worldtours.com}")
+    private String userEmail;
+
+    @org.springframework.beans.factory.annotation.Value("${seed.user.password:Password123!}")
+    private String userPass;
+
     @Override
     public void run(String... args) throws Exception {
         // 1. Seed Super Admin
         if (adminLoginRepository.count() == 0) {
-            String defaultAdminEmail = "admin@nextgem.com";
-            String defaultAdminPass = "AdminSecretPass123!";
-
             Admin admin = new Admin();
             admin.setName("Super Admin");
             admin.setEmail(defaultAdminEmail);
@@ -53,9 +62,7 @@ public class AdminInitializer implements CommandLineRunner {
             System.out.println("✅ DEFAULT SUPER ADMIN SEEDED: " + defaultAdminEmail);
         }
 
-        // 2. Seed Default Verified User: hotelluxnes@gmail.com
-        String userEmail = "hotelluxnes@gmail.com";
-        String userPass = "password123";
+        // 2. Seed Default Verified User
         if (userLoginRepository.findByEmail(userEmail).isEmpty()) {
             if (userRepository.findByEmail(userEmail).isEmpty()) {
                 User user = new User();
