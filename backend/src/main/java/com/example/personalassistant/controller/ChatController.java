@@ -22,10 +22,15 @@ public class ChatController {
 
         Response res = new Response();
 
-        String answer = aiChatService.getAIResponse(request.getMessage());
+        String sessionId = (request.getSessionId() != null && !request.getSessionId().isBlank())
+                ? request.getSessionId()
+                : UUID.randomUUID().toString();
+
+        String answer = aiChatService.getAIResponse(request.getMessage(), sessionId, request.getEmail());
 
         Map<String, String> data = new HashMap<>();
         data.put("answer", answer);
+        data.put("sessionId", sessionId);
 
         res.setData(data);
 

@@ -9,4 +9,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ChatRequest {
     private String message;
+    private String sessionId;
+    private String email;
 }

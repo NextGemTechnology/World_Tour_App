@@ -13,9 +13,31 @@ public class ChatMemoryService {
 
     private final Map<String, LinkedList<String>> memory = new ConcurrentHashMap<>();
 
+    @org.springframework.beans.factory.annotation.Autowired(required = false)
+    private MongoService mongoService;
+
     public String getContext(String sessionId) {
         if (sessionId == null) return "";
         LinkedList<String> list = memory.get(sessionId);
+
+        // If in-memory cache is cold (e.g. server restarted), restore from MongoDB ChatSession
+        if ((list == null || list.isEmpty()) && mongoService != null) {
+            try {
+                var messages = mongoService.getMessagesForSession(sessionId);
+                if (messages != null && !messages.isEmpty()) {
+                    list = new LinkedList<>();
+                    // Take up to MAX_TURNS * 2 most recent messages
+                    int startIndex = Math.max(0, messages.size() - (MAX_TURNS * 2));
+                    for (int i = startIndex; i < messages.size(); i++) {
+                        var msg = messages.get(i);
+                        String prefix = "AI".equalsIgnoreCase(msg.getSender()) ? "AI: " : "User: ";
+                        list.add(prefix + (msg.getText() != null ? msg.getText().trim() : ""));
+                    }
+                    memory.put(sessionId, list);
+                }
+            } catch (Exception ignored) {}
+        }
+
         if (list == null || list.isEmpty()) return "";
 
         StringBuilder sb = new StringBuilder();

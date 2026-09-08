@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { Plane, Train, Bus, Car, X, Send, Trash2, Sun, Moon } from "lucide-react";
+import { Plane, Train, Bus, Car, X, Send, Trash2, Sun, Moon, Plus } from "lucide-react";
 import "../styles/AIChatModal.css";
 
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
+const generateSessionId = () => `session_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
 function AIChatModal({ onClose }) {
+  const [sessionId, setSessionId] = useState(generateSessionId);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -154,7 +157,8 @@ function AIChatModal({ onClose }) {
       const res = await axios.post(`${API_BASE}/api/ai/prompt`, {
         prompt: text,
         role: localStorage.getItem("role") || "GUEST",
-        email: userInfo?.email || ""
+        email: userInfo?.email || "",
+        sessionId: sessionId
       }, {
         headers: token ? { Authorization: `Bearer ${token}` } : {}
       });
@@ -364,6 +368,30 @@ function AIChatModal({ onClose }) {
     }
   };
 
+  const handleNewChat = () => {
+    const newSess = generateSessionId();
+    setSessionId(newSess);
+    setMessages([
+      {
+        role: "ai",
+        text: userInfo?.name
+          ? `👋 Started a new chat! Hello ${userInfo.name}, where would you like to travel today?`
+          : "👋 Started a new chat! Where would you like to travel today? (E.g. \"I want to go to Delhi\")"
+      }
+    ]);
+    setAgentState({
+      step: "idle",
+      destination: "",
+      mode: "",
+      options: [],
+      hotels: [],
+      selectedHotel: null,
+      selectedOption: null,
+      upi: "",
+    });
+    setInput("");
+  };
+
   const clearChat = () => {
     setMessages([{ role: "ai", text: "Chat history cleared. Tell me where you want to go next!" }]);
     setAgentState({ step: "idle", destination: "", mode: "", options: [], hotels: [], selectedHotel: null, selectedOption: null, upi: "" });
@@ -386,6 +414,10 @@ function AIChatModal({ onClose }) {
             </div>
           </div>
           <div className="ai-actions">
+            <button onClick={handleNewChat} className="ai-new-chat-btn" title="Start New Chat">
+              <Plus size={16} />
+              <span>New Chat</span>
+            </button>
             <button onClick={() => setDarkMode(!darkMode)} title="Toggle Theme">
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>

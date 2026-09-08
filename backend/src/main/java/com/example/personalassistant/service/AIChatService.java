@@ -18,6 +18,10 @@ public class AIChatService {
     private com.example.personalassistant.service.ai.AIModelService aiModelService;
 
     public String getAIResponse(String userMessage) {
+        return getAIResponse(userMessage, null, null);
+    }
+
+    public String getAIResponse(String userMessage, String sessionId, String email) {
         try {
             String answer = aiModelService.generate(
                     "You are LuxNes AI Travel Assistant. Provide helpful, conversational responses about destinations, trips, and reservations.",
@@ -26,7 +30,8 @@ public class AIChatService {
             if (answer == null || answer.isBlank()) {
                 answer = "Hello! I am your AI Travel Assistant. How can I help you plan your travel or stay today?";
             }
-            mongoService.saveAiChat(userMessage);
+            String effSessionId = (sessionId != null && !sessionId.isBlank()) ? sessionId : "default";
+            mongoService.saveAiChat(effSessionId, email, userMessage, answer);
             return answer;
         } catch (Exception e) {
             return "I am currently assisting many travelers. Please let me know where you'd like to travel!";
