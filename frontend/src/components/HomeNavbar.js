@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { User, LogOut, Settings, Shield, Building2, ChevronDown, Menu, X } from "lucide-react";
-import { getInitialTheme, applyTheme, cycleTheme, THEME_CONFIG } from "../utils/theme";
+import { applyTheme } from "../utils/theme";
 import "../styles/HomeNavbar.css";
 
 function Navbar() {
@@ -10,7 +10,6 @@ function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
-  const [theme, setTheme] = useState(getInitialTheme());
 
   const profileRef = useRef();
   const hotelRef = useRef();
@@ -19,13 +18,8 @@ function Navbar() {
 
   // Initialize theme on mount
   useEffect(() => {
-    applyTheme(theme);
-  }, [theme]);
-
-  const handleCycleTheme = () => {
-    const next = cycleTheme(theme);
-    setTheme(next);
-  };
+    applyTheme("dark-75");
+  }, []);
 
   // Detect login status from localStorage
   useEffect(() => {
@@ -95,7 +89,8 @@ function Navbar() {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="nav">
+    <>
+      <nav className="nav">
       <div className="nav-container">
         {/* LOGO & PRIMARY LINKS */}
         <div className="nav-left">
@@ -132,16 +127,6 @@ function Navbar() {
               Feedback
             </Link>
 
-            {/* MOBILE THEME SWITCHER */}
-            {mobileMenuOpen && (
-              <div className="mobile-theme-row">
-                <button className="mobile-theme-btn" onClick={handleCycleTheme}>
-                  <span>Theme: {THEME_CONFIG[theme]?.icon} {THEME_CONFIG[theme]?.label}</span>
-                  <span className="mobile-theme-tap">Tap to switch</span>
-                </button>
-              </div>
-            )}
-
             {/* MOBILE ONLY AUTH SECTION */}
             {mobileMenuOpen && !email && (
               <div className="mobile-auth-section">
@@ -168,19 +153,8 @@ function Navbar() {
           </div>
         </div>
 
-        {/* RIGHT SECTION: AUTHENTICATION OPTIONS & THEME TOGGLE */}
+        {/* RIGHT SECTION: AUTHENTICATION OPTIONS */}
         <div className="nav-right">
-          {/* GLOBAL THEME CYCLE BUTTON */}
-          <button
-            className="theme-cycle-nav-btn"
-            onClick={handleCycleTheme}
-            title={`Active Theme: ${THEME_CONFIG[theme]?.label || "Theme"}. Click to cycle: 75% Dark ➔ 50% Light ➔ 25% Light`}
-            aria-label="Cycle theme mode"
-          >
-            <span className="theme-icon">{THEME_CONFIG[theme]?.icon || "🌙"}</span>
-            <span className="theme-label">{THEME_CONFIG[theme]?.label || "75% Dark"}</span>
-          </button>
-
           {email ? (
             /* LOGGED IN PROFILE DROPDOWN */
             <div className="dropdown" ref={profileRef}>
@@ -274,7 +248,9 @@ function Navbar() {
         </div>
       </div>
     </nav>
-  );
+    <div className="nav-spacer" aria-hidden="true" />
+  </>
+);
 }
 
 export default Navbar;

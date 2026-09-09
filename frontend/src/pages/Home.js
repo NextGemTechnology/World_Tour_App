@@ -206,8 +206,8 @@ function HomePage() {
                     <h3 style={{ marginTop: 12 }}>{t.name}</h3>
                     <p style={{ color: "#64748b", margin: "4px 0" }}>{t.destination}</p>
                     <p>{t.duration} Days</p>
-                    <h3 style={{ color: "#0284c7" }}>₹{t.price}</h3>
-                    <button style={{ backgroundColor: "#0284c7", color: "white", padding: "8px 16px", border: "none", borderRadius: 6, cursor: "pointer", marginTop: 10 }} onClick={() => { setShowResults(false); navigate(`/tour-booking/${t.id}`); }}>
+                    <h3 style={{ color: "#38bdf8" }}>₹{t.price}</h3>
+                    <button style={{ backgroundColor: "#38bdf8", color: "#0b132b", fontWeight: 700, padding: "8px 16px", border: "none", borderRadius: 6, cursor: "pointer", marginTop: 10 }} onClick={() => { setShowResults(false); navigate(`/tour-booking/${t.id}`); }}>
                       Book Details
                     </button>
                   </div>
@@ -250,10 +250,10 @@ function HomePage() {
       <section className="section" style={{ background: "transparent" }}>
         <h2>Why Travel With worldtours.com</h2>
         <div className="features">
-          <div><Star style={{ color: "#eab308" }} /> Best Price Guarantee</div>
-          <div><Award style={{ color: "#3b82f6" }} /> 1000+ Vetted Stays</div>
-          <div><Shield style={{ color: "#10b981" }} /> Secure Payments</div>
-          <div><Wifi style={{ color: "#a855f7" }} /> 24/7 AI Assistance</div>
+          <div><Star style={{ color: "#38bdf8" }} /> Best Price Guarantee</div>
+          <div><Award style={{ color: "#38bdf8" }} /> 1000+ Vetted Stays</div>
+          <div><Shield style={{ color: "#38bdf8" }} /> Secure Payments</div>
+          <div><Wifi style={{ color: "#38bdf8" }} /> 24/7 AI Assistance</div>
         </div>
       </section>
 

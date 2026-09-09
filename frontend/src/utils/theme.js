@@ -28,11 +28,6 @@ export const THEME_CONFIG = {
 };
 
 export const getInitialTheme = () => {
-  if (typeof window === "undefined") return "dark-75";
-  const saved = localStorage.getItem(THEME_STORAGE_KEY);
-  if (saved && THEMES.includes(saved)) {
-    return saved;
-  }
   return "dark-75";
 };
 

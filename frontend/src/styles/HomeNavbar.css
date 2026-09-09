@@ -4,16 +4,24 @@
 
 .nav {
   width: 100%;
-  background: rgba(15, 23, 42, 0.95);
+  background: rgba(11, 19, 43, 0.96);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   height: 72px;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.nav-spacer {
+  height: 72px;
+  width: 100%;
+  pointer-events: none;
 }
 
 .nav-container {
@@ -263,61 +271,6 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-}
-
-/* 🎨 Global Theme Cycle Button (75% Dark, 50% Light, 25% Light) */
-.theme-cycle-nav-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--bg-input, rgba(255, 255, 255, 0.08));
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
-  color: var(--text-main, #f8fafc);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  white-space: nowrap;
-}
-
-.theme-cycle-nav-btn:hover {
-  background: var(--bg-card-hover, rgba(255, 255, 255, 0.15));
-  border-color: var(--border-focus, #38bdf8);
-  box-shadow: 0 0 10px var(--primary-glow, rgba(56, 189, 248, 0.3));
-  transform: translateY(-1px);
-}
-
-.theme-cycle-nav-btn .theme-icon {
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.mobile-theme-row {
-  margin: 15px 0 10px 0;
-  padding: 0 10px;
-}
-
-.mobile-theme-btn {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--bg-input, rgba(255, 255, 255, 0.08));
-  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.15));
-  color: var(--text-main, #f8fafc);
-  padding: 10px 14px;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.mobile-theme-tap {
-  font-size: 0.75rem;
-  color: var(--accent-cyan, #38bdf8);
-  font-weight: 500;
 }
 
 .auth-nav-group {
@@ -639,10 +592,6 @@
     padding: 6px 13px;
     font-size: 0.83rem;
   }
-  .theme-cycle-nav-btn {
-    padding: 5px 9px;
-    font-size: 0.78rem;
-  }
 }
 
 @media (max-width: 1150px) {
@@ -788,19 +737,6 @@ body.menu-open-scroll-lock {
     padding: 0 1rem;
   }
 
-  /* Compact Theme Button on Mobile */
-  .theme-cycle-nav-btn {
-    padding: 6px;
-    min-width: 36px;
-    min-height: 36px;
-    border-radius: 50%;
-    justify-content: center;
-  }
-
-  .theme-cycle-nav-btn .theme-label {
-    display: none;
-  }
-
   /* Compact Profile Button: Hide long email string and badge to prevent header overflow */
   .profile-btn {
     padding: 4px 6px;
@@ -821,6 +757,10 @@ body.menu-open-scroll-lock {
 
 @media (max-width: 480px) {
   .nav {
+    height: 64px;
+  }
+
+  .nav-spacer {
     height: 64px;
   }
 
