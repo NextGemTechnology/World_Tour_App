@@ -54,12 +54,24 @@ function Navbar() {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Close mobile menu on route change
+  // Close mobile menu on route change & handle scroll lock
   useEffect(() => {
     setMobileMenuOpen(false);
     setProfileOpen(false);
     setHotelDropdownOpen(false);
   }, [location.pathname]);
+
+  // Lock background scrolling when mobile menu drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.classList.add("menu-open-scroll-lock");
+    } else {
+      document.body.classList.remove("menu-open-scroll-lock");
+    }
+    return () => {
+      document.body.classList.remove("menu-open-scroll-lock");
+    };
+  }, [mobileMenuOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

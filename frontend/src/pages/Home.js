@@ -246,25 +246,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Quick Access Portals */}
-      <section className="section">
-        <h2>Portals & Account Operations</h2>
-        <div className="cards-wrapper">
-          {[
-            { title: "Customer Dashboard", subtitle: "Access your bookings, profile settings, and chat history", color: "#2563eb", link: "/login" },
-            { title: "Hotel Owner Portal", subtitle: "Register and manage properties, tour packages, and reservations", color: "#7c3aed", link: "/hotel/login" },
-            { title: "System Administration", subtitle: "Authorized personnel login for support, updates, and moderation", color: "#0f172a", link: "/admin/login" },
-          ].map((item, index) => (
-            <div key={index} className="quick-card" onClick={() => navigate(item.link)}>
-              <div className="icon" style={{ backgroundColor: item.color + "15", color: item.color }}>●</div>
-              <h3>{item.title}</h3>
-              <p>{item.subtitle}</p>
-              <button style={{ backgroundColor: item.color }}>Enter Portal</button>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Why Choose Us */}
       <section className="section" style={{ background: "transparent" }}>
         <h2>Why Travel With worldtours.com</h2>

@@ -570,3 +570,255 @@ body {
 .footer p {
   margin-bottom: 8px;
 }
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS & OVERLAY PREVENTION (< 768px and < 480px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .home {
+    overflow-x: hidden;
+    padding-bottom: 70px; /* Clearance so floating AI button does not overlay buttons */
+  }
+
+  /* Hero Section */
+  .hero {
+    min-height: auto;
+    padding: 30px 14px 40px;
+  }
+
+  .hero h1 {
+    font-size: 2.1rem;
+    line-height: 1.25;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero p {
+    font-size: 1rem;
+    margin-bottom: 24px;
+    padding: 0 8px;
+    line-height: 1.45;
+  }
+
+  /* Hero AI Prompt Strip */
+  .hero-ai-strip {
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    padding: 8px 12px;
+    gap: 8px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .hero-ai-text {
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+
+  .hero-ai-btn {
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    flex-shrink: 0;
+  }
+
+  /* Search Container */
+  .search-container {
+    padding: 18px 14px;
+    border-radius: 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Search Tabs: 2x2 grid on mobile for easy tapping without scrolling or overflow */
+  .search-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .tab-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 9px 8px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    background: #f1f5f9;
+  }
+
+  .tab-btn.active {
+    background: #e0f2fe;
+    color: #0284c7;
+    font-weight: 700;
+  }
+
+  /* Form Search Row: Clean single-column layout on mobile */
+  .search-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .search-input-group label {
+    font-size: 0.75rem;
+  }
+
+  .search-input-group input,
+  .search-input-group select {
+    padding: 11px 12px;
+    font-size: 0.92rem;
+    border-radius: 8px;
+  }
+
+  .search-action-btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+  }
+
+  /* Featured Hotels */
+  .featured-section {
+    padding: 40px 14px;
+  }
+
+  .featured-title {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+  }
+
+  .featured-container {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .featured-card {
+    border-radius: 14px;
+  }
+
+  .featured-img {
+    height: 180px;
+  }
+
+  .featured-content {
+    padding: 16px;
+  }
+
+  /* Why Choose Us */
+  .section {
+    padding: 40px 14px;
+  }
+
+  .section h2 {
+    font-size: 1.6rem;
+    margin-bottom: 24px;
+  }
+
+  .features {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .features div {
+    padding: 12px 10px;
+    font-size: 0.84rem;
+    white-space: normal;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  /* Special Offer */
+  .offer {
+    padding: 30px 16px;
+    margin: 24px 14px;
+    border-radius: 16px;
+  }
+
+  .offer h2 {
+    font-size: 1.4rem;
+  }
+
+  .offer p {
+    font-size: 0.92rem;
+    margin-bottom: 18px;
+  }
+
+  .offer button {
+    width: 100%;
+    max-width: 260px;
+    padding: 11px 20px;
+    font-size: 0.92rem;
+  }
+
+  /* Reviews */
+  .card-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .card.small {
+    width: 100%;
+    max-width: 100%;
+    padding: 18px 16px;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
+
+  /* CTA & Footer */
+  .cta {
+    padding: 44px 16px;
+  }
+
+  .cta h2 {
+    font-size: 1.6rem;
+    margin-bottom: 18px;
+  }
+
+  .footer {
+    padding: 30px 16px 50px;
+  }
+
+  /* Results Overlay */
+  .results-overlay {
+    padding: 12px;
+    z-index: 10002;
+  }
+
+  .results-box {
+    padding: 24px 14px;
+    width: 100%;
+    max-height: 90vh;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .hero-ai-text {
+    display: none;
+  }
+
+  .hero-ai-strip {
+    justify-content: space-between;
+    padding: 6px 10px;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .features div {
+    justify-content: flex-start;
+    padding: 12px 14px;
+    text-align: left;
+  }
+}
