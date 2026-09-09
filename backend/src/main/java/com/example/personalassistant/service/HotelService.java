@@ -42,10 +42,10 @@ public class HotelService {
             response.setError(errorDetails);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        if (!hotelDto.getEmail().endsWith("@gmail.com")) {
+        if (hotelDto.getEmail() == null || !com.example.personalassistant.util.DomainValidator.isGenuineDomain(hotelDto.getEmail())) {
             ErrorDetails error = new ErrorDetails(
                     HttpStatus.BAD_REQUEST,
-                    "Only Gmail addresses are allowed!"
+                    "Only genuine email domains (e.g., Gmail, Yahoo, Outlook, iCloud) are allowed!"
             );
             response.setError(error);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);

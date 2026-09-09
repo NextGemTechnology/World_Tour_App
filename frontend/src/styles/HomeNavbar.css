@@ -279,94 +279,55 @@
   gap: 0.6rem;
 }
 
-/* Hotel Partner Button */
-.hotel-partner-btn {
-  display: flex;
+/* Clean Auth Buttons: Log In & Sign Up Dropdown Triggers */
+.nav-auth-btn {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #e2e8f0;
-  padding: 7px 13px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  padding: 8px 16px;
   border-radius: 8px;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-.hotel-partner-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(56, 189, 248, 0.4);
-  color: #38bdf8;
-}
-
-/* Admin Link */
-.admin-nav-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  text-decoration: none;
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.25);
-  color: #fca5a5;
-  padding: 7px 12px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.admin-nav-btn:hover {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.5);
-  color: #ffffff;
-}
-
-/* Divider */
-.nav-divider {
-  width: 1px;
-  height: 22px;
-  background: rgba(255, 255, 255, 0.15);
-  margin: 0 4px;
-}
-
-/* User Login & Signup */
-.user-login-btn {
-  text-decoration: none;
-  color: #e2e8f0;
-  font-size: 0.88rem;
-  font-weight: 600;
-  padding: 7px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-}
-
-.user-login-btn:hover {
+.nav-auth-btn:hover {
   background: rgba(255, 255, 255, 0.12);
-  color: #38bdf8;
   border-color: rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
 }
 
-.user-signup-btn {
-  text-decoration: none;
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-  color: #ffffff;
-  font-size: 0.88rem;
+.nav-auth-btn .dropdown-arrow {
+  transition: transform 0.2s ease;
+}
+
+.nav-auth-btn .dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.nav-auth-btn.nav-signup-trigger {
+  background: #38bdf8;
+  color: #0b132b;
   font-weight: 700;
-  padding: 7px 16px;
-  border-radius: 8px;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
-  transition: all 0.2s ease;
+  border: 1px solid #38bdf8;
+  box-shadow: 0 2px 10px rgba(56, 189, 248, 0.25);
 }
 
-.user-signup-btn:hover {
-  background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
-  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.5);
+.nav-auth-btn.nav-signup-trigger:hover {
+  background: #7dd3fc;
+  border-color: #7dd3fc;
+  color: #0b132b;
+  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.4);
   transform: translateY(-1px);
+}
+
+.dropdown-menu.auth-menu {
+  width: 200px;
 }
 
 /* Profile Dropdown Button */
@@ -678,49 +639,51 @@
     font-weight: 700;
   }
 
-  .mobile-button-row {
+  .mobile-button-col {
     display: flex;
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 0.55rem;
   }
 
-  .btn-user-login, .btn-user-register,
-  .btn-hotel-portal, .btn-hotel-register,
-  .btn-admin-portal {
-    flex: 1;
-    text-align: center;
-    text-decoration: none;
-    padding: 10px 14px;
+  .mobile-auth-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    font-size: 0.9rem;
+    color: #ffffff;
+    text-decoration: none;
     font-weight: 600;
+    font-size: 0.92rem;
+    transition: all 0.2s ease;
   }
 
-  .btn-user-login {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #e2e8f0;
+  .mobile-auth-link:hover {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.4);
+    color: #38bdf8;
   }
 
-  .btn-user-register {
-    background: #0284c7;
-    color: #ffffff;
+  .mobile-auth-btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 15px;
+    background: #38bdf8;
+    border: 1px solid #38bdf8;
+    border-radius: 8px;
+    color: #0b132b;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.92rem;
+    transition: all 0.2s ease;
   }
 
-  .btn-hotel-portal {
-    background: rgba(168, 85, 247, 0.15);
-    border: 1px solid rgba(168, 85, 247, 0.35);
-    color: #d8b4fe;
-  }
-
-  .btn-hotel-register {
-    background: #7c3aed;
-    color: #ffffff;
-  }
-
-  .btn-admin-portal {
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.35);
-    color: #fca5a5;
+  .mobile-auth-btn-primary:hover {
+    background: #7dd3fc;
+    border-color: #7dd3fc;
   }
 }
 

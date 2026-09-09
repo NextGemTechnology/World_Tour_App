@@ -7,6 +7,7 @@ import com.example.personalassistant.dto.OtpVerificationResult;
 import com.example.personalassistant.entity.OtpVerification;
 import com.example.personalassistant.enums.AccountEnum;
 import com.example.personalassistant.repository.OtpRepository;
+import com.example.personalassistant.util.DomainValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.personalassistant.entity.User;
@@ -56,17 +57,27 @@ public class UserService {
     public ResponseEntity<Response> sendRegistrationOtp(UserDto dto) {
         Response response = new Response();
 
-        if (dto.getEmail() == null || !dto.getEmail().toLowerCase().endsWith("@gmail.com")) {
+        if (dto.getEmail() == null || !DomainValidator.isGenuineDomain(dto.getEmail())) {
             ErrorDetails error = new ErrorDetails(
                     HttpStatus.BAD_REQUEST,
-                    "Only Gmail addresses are allowed!"
+                    "Only genuine email domains (e.g., Gmail, Yahoo, Outlook, iCloud) are allowed!"
             );
             response.setError(error);
-            response.setMessage("Only Gmail addresses are allowed!");
+            response.setMessage("Only genuine email domains (e.g., Gmail, Yahoo, Outlook, iCloud) are allowed!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
         String normalizedEmail = dto.getEmail().trim().toLowerCase();
+
+        if (otpService.isDailyLimitExceeded(normalizedEmail)) {
+            ErrorDetails error = new ErrorDetails(
+                    HttpStatus.TOO_MANY_REQUESTS,
+                    "Daily OTP limit reached. You can only request up to 3 verification codes per day. Please try again tomorrow."
+            );
+            response.setError(error);
+            response.setMessage("Daily OTP limit reached. You can only request up to 3 verification codes per day. Please try again tomorrow.");
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(response);
+        }
 
         if (userLoginRepository.existsByEmail(normalizedEmail) ||
             userLoginRepository.existsByEmail(dto.getEmail().trim()) ||
@@ -112,13 +123,13 @@ public class UserService {
     public ResponseEntity<Response> registerUser(UserDto dto) {
         Response response = new Response();
 
-        if (dto.getEmail() == null || !dto.getEmail().toLowerCase().endsWith("@gmail.com")) {
+        if (dto.getEmail() == null || !DomainValidator.isGenuineDomain(dto.getEmail())) {
             ErrorDetails error = new ErrorDetails(
                     HttpStatus.BAD_REQUEST,
-                    "Only Gmail addresses are allowed!"
+                    "Only genuine email domains (e.g., Gmail, Yahoo, Outlook, iCloud) are allowed!"
             );
             response.setError(error);
-            response.setMessage("Only Gmail addresses are allowed!");
+            response.setMessage("Only genuine email domains (e.g., Gmail, Yahoo, Outlook, iCloud) are allowed!");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
@@ -225,11 +236,11 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 
-        // 🔒 CHECK LOCKOUT (4 failed attempts)
+        // 🔒 CHECK LOCKOUT (3 failed attempts)
         if (user.isAccountLocked()) {
             ErrorDetails error = new ErrorDetails(
                     HttpStatus.LOCKED,
-                    "Account locked due to 4 consecutive failed password attempts. Please use password retrieval (Forgot Password) to unlock your account."
+                    "Account locked due to 3 consecutive failed password attempts. Please use password retrieval (Forgot Password) to unlock your account."
             );
             response.setError(error);
             return ResponseEntity.status(HttpStatus.LOCKED).body(response);
@@ -240,21 +251,21 @@ public class UserService {
             int attempts = user.getFailedLoginAttempts() + 1;
             user.setFailedLoginAttempts(attempts);
 
-            if (attempts >= 4 ) {
+            if (attempts >= 3) {
                 user.setAccountLocked(true);
                 userLoginRepository.save(user);
                 ErrorDetails error = new ErrorDetails(
                         HttpStatus.LOCKED,
-                        "Account locked due to 4 consecutive failed password attempts. Please use password retrieval (Forgot Password) to unlock your account."
+                        "Account locked due to 3 consecutive failed password attempts. Please use password retrieval (Forgot Password) to unlock your account."
                 );
                 response.setError(error);
                 return ResponseEntity.status(HttpStatus.LOCKED).body(response);
             } else {
                 userLoginRepository.save(user);
-                int remaining = 4 - attempts;
+                int remaining = 3 - attempts;
                 ErrorDetails error = new ErrorDetails(
                         HttpStatus.BAD_REQUEST,
-                        "Invalid email or password. " + remaining + " attempts remaining before account lockout."
+                        "Incorrect password. You have " + remaining + " attempt(s) remaining before account lockout."
                 );
                 response.setError(error);
                 return ResponseEntity.badRequest().body(response);

@@ -132,20 +132,19 @@ public class AuthLockoutAndTwoFactorTest {
     }
 
     @Test
-    public void testAccountLockoutAfterFourAttempts() {
-        // Attempts 1, 2, 3
-        userService.loginUser("test@gmail.com", "wrongPassword");
+    public void testAccountLockoutAfterThreeAttempts() {
+        // Attempts 1 and 2
         userService.loginUser("test@gmail.com", "wrongPassword");
         userService.loginUser("test@gmail.com", "wrongPassword");
 
-        // Attempt 4 triggers lockout
+        // Attempt 3 triggers lockout
         ResponseEntity<Response> res = userService.loginUser("test@gmail.com", "wrongPassword");
         assertEquals(HttpStatus.LOCKED, res.getStatusCode());
-        assertTrue(testLogin.isAccountLocked(), "Account must be locked on 4th failed attempt");
+        assertTrue(testLogin.isAccountLocked(), "Account must be locked on 3rd failed attempt");
 
-        // Attempt 5 is blocked immediately with 423
-        ResponseEntity<Response> res5 = userService.loginUser("test@gmail.com", "correctPassword");
-        assertEquals(HttpStatus.LOCKED, res5.getStatusCode());
+        // Attempt 4 is blocked immediately with 423
+        ResponseEntity<Response> res4 = userService.loginUser("test@gmail.com", "correctPassword");
+        assertEquals(HttpStatus.LOCKED, res4.getStatusCode());
     }
 
     @Test

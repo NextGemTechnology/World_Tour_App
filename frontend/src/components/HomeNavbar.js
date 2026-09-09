@@ -6,13 +6,15 @@ import "../styles/HomeNavbar.css";
 
 function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
-  const [hotelDropdownOpen, setHotelDropdownOpen] = useState(false);
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
+  const [signupDropdownOpen, setSignupDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
   const profileRef = useRef();
-  const hotelRef = useRef();
+  const loginRef = useRef();
+  const signupRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -40,8 +42,11 @@ function Navbar() {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
-      if (hotelRef.current && !hotelRef.current.contains(e.target)) {
-        setHotelDropdownOpen(false);
+      if (loginRef.current && !loginRef.current.contains(e.target)) {
+        setLoginDropdownOpen(false);
+      }
+      if (signupRef.current && !signupRef.current.contains(e.target)) {
+        setSignupDropdownOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -52,7 +57,8 @@ function Navbar() {
   useEffect(() => {
     setMobileMenuOpen(false);
     setProfileOpen(false);
-    setHotelDropdownOpen(false);
+    setLoginDropdownOpen(false);
+    setSignupDropdownOpen(false);
   }, [location.pathname]);
 
   // Lock background scrolling when mobile menu drawer is open
@@ -131,22 +137,29 @@ function Navbar() {
             {mobileMenuOpen && !email && (
               <div className="mobile-auth-section">
                 <div className="mobile-auth-group">
-                  <span className="mobile-group-title">Traveler Account</span>
-                  <div className="mobile-button-row">
-                    <Link to="/login" className="btn-user-login">User Login</Link>
-                    <Link to="/register" className="btn-user-register">Sign Up</Link>
+                  <span className="mobile-group-title">Log In Portals</span>
+                  <div className="mobile-button-col">
+                    <Link to="/login" className="mobile-auth-link" onClick={() => setMobileMenuOpen(false)}>
+                      <User size={16} /> Traveler Login
+                    </Link>
+                    <Link to="/hotel-login" className="mobile-auth-link" onClick={() => setMobileMenuOpen(false)}>
+                      <Building2 size={16} /> Hotel Login
+                    </Link>
+                    <Link to="/admin-login" className="mobile-auth-link" onClick={() => setMobileMenuOpen(false)}>
+                      <Shield size={16} /> Admin Login
+                    </Link>
                   </div>
                 </div>
                 <div className="mobile-auth-group">
-                  <span className="mobile-group-title">Hotel Partner</span>
-                  <div className="mobile-button-row">
-                    <Link to="/hotel-login" className="btn-hotel-portal">Hotel Login</Link>
-                    <Link to="/hotel-register" className="btn-hotel-register">Register Hotel</Link>
+                  <span className="mobile-group-title">Sign Up Portals</span>
+                  <div className="mobile-button-col">
+                    <Link to="/register" className="mobile-auth-btn-primary" onClick={() => setMobileMenuOpen(false)}>
+                      <User size={16} /> Traveler Sign Up
+                    </Link>
+                    <Link to="/hotel-register" className="mobile-auth-link" onClick={() => setMobileMenuOpen(false)}>
+                      <Building2 size={16} /> Register Hotel
+                    </Link>
                   </div>
-                </div>
-                <div className="mobile-auth-group">
-                  <span className="mobile-group-title">Administration</span>
-                  <Link to="/admin-login" className="btn-admin-portal">Admin Login</Link>
                 </div>
               </div>
             )}
@@ -190,50 +203,68 @@ function Navbar() {
               )}
             </div>
           ) : (
-            /* AUTHENTICATION OPTIONS (USER, HOTEL, ADMIN) */
+            /* AUTHENTICATION OPTIONS: ONLY LOGIN & SIGNUP BUTTONS */
             <div className="auth-nav-group">
-              {/* 1. HOTEL PARTNER DROPDOWN */}
-              <div className="dropdown" ref={hotelRef}>
+              {/* 1. LOGIN DROPDOWN (Traveler, Hotel, Admin) */}
+              <div className="dropdown" ref={loginRef}>
                 <button
-                  className="hotel-partner-btn"
-                  onClick={() => setHotelDropdownOpen(!hotelDropdownOpen)}
-                  aria-expanded={hotelDropdownOpen}
+                  className="nav-auth-btn nav-login-trigger"
+                  onClick={() => {
+                    setLoginDropdownOpen(!loginDropdownOpen);
+                    setSignupDropdownOpen(false);
+                  }}
+                  aria-expanded={loginDropdownOpen}
                 >
-                  <Building2 size={15} />
-                  <span>Hotel Partner</span>
-                  <ChevronDown size={13} className={`dropdown-arrow ${hotelDropdownOpen ? "open" : ""}`} />
+                  <span>Log In</span>
+                  <ChevronDown size={13} className={`dropdown-arrow ${loginDropdownOpen ? "open" : ""}`} />
                 </button>
 
-                {hotelDropdownOpen && (
-                  <div className="dropdown-menu hotel-menu">
+                {loginDropdownOpen && (
+                  <div className="dropdown-menu auth-menu">
                     <div className="dropdown-header">
-                      <span className="dropdown-header-label">Hotel Management</span>
+                      <span className="dropdown-header-label">Choose Portal</span>
                     </div>
-                    <Link to="/hotel-login" className="dropdown-item">
-                      Hotel Login
+                    <Link to="/login" className="dropdown-item" onClick={() => setLoginDropdownOpen(false)}>
+                      <User size={15} /> Traveler Login
                     </Link>
-                    <Link to="/hotel-register" className="dropdown-item">
-                      Register Hotel
+                    <Link to="/hotel-login" className="dropdown-item" onClick={() => setLoginDropdownOpen(false)}>
+                      <Building2 size={15} /> Hotel Login
+                    </Link>
+                    <Link to="/admin-login" className="dropdown-item" onClick={() => setLoginDropdownOpen(false)}>
+                      <Shield size={15} /> Admin Login
                     </Link>
                   </div>
                 )}
               </div>
 
-              {/* 2. ADMIN LOGIN */}
-              <Link to="/admin-login" className="admin-nav-btn" title="Restricted Admin Access">
-                <Shield size={14} />
-                <span>Admin</span>
-              </Link>
+              {/* 2. SIGN UP DROPDOWN (Traveler, Hotel Register) */}
+              <div className="dropdown" ref={signupRef}>
+                <button
+                  className="nav-auth-btn nav-signup-trigger"
+                  onClick={() => {
+                    setSignupDropdownOpen(!signupDropdownOpen);
+                    setLoginDropdownOpen(false);
+                  }}
+                  aria-expanded={signupDropdownOpen}
+                >
+                  <span>Sign Up</span>
+                  <ChevronDown size={13} className={`dropdown-arrow ${signupDropdownOpen ? "open" : ""}`} />
+                </button>
 
-              <div className="nav-divider"></div>
-
-              {/* 3. USER LOGIN & SIGN UP */}
-              <Link to="/login" className="user-login-btn">
-                Log In
-              </Link>
-              <Link to="/register" className="user-signup-btn">
-                Sign Up
-              </Link>
+                {signupDropdownOpen && (
+                  <div className="dropdown-menu auth-menu">
+                    <div className="dropdown-header">
+                      <span className="dropdown-header-label">Create Account</span>
+                    </div>
+                    <Link to="/register" className="dropdown-item" onClick={() => setSignupDropdownOpen(false)}>
+                      <User size={15} /> Traveler Sign Up
+                    </Link>
+                    <Link to="/hotel-register" className="dropdown-item" onClick={() => setSignupDropdownOpen(false)}>
+                      <Building2 size={15} /> Register Hotel
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 

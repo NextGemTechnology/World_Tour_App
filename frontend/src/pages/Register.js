@@ -51,10 +51,14 @@ function Register() {
       errs.name = "Full Name is required";
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const disposableDomains = ["mailinator.com", "tempmail.com", "temp-mail.org", "10minutemail.com", "guerrillamail.com", "sharklasers.com", "yopmail.com", "trashmail.com"];
+    const domain = email.trim().toLowerCase().split("@")[1] || "";
+
     if (!email.trim()) {
       errs.email = "Email address is required";
-    } else if (!email.toLowerCase().endsWith("@gmail.com")) {
-      errs.email = "Only official Google Mail (@gmail.com) is supported";
+    } else if (!emailRegex.test(email.trim()) || disposableDomains.includes(domain)) {
+      errs.email = "Please enter a valid genuine email address (e.g. Gmail, Yahoo, Outlook, iCloud)";
     }
 
     if (!mobile.trim()) {

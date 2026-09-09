@@ -36,10 +36,14 @@ function HotelRegister() {
       errs.hotel = "Hotel name is required";
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const disposableDomains = ["mailinator.com", "tempmail.com", "temp-mail.org", "10minutemail.com", "guerrillamail.com", "sharklasers.com", "yopmail.com", "trashmail.com"];
+    const domain = formData.email.trim().toLowerCase().split("@")[1] || "";
+
     if (!formData.email.trim()) {
       errs.email = "Email is required";
-    } else if (!formData.email.toLowerCase().endsWith("@gmail.com")) {
-      errs.email = "Only official Google Mail (@gmail.com) is supported";
+    } else if (!emailRegex.test(formData.email.trim()) || disposableDomains.includes(domain)) {
+      errs.email = "Please enter a valid genuine email address (e.g. Gmail, Yahoo, Outlook, iCloud)";
     }
 
     if (!formData.password) {
